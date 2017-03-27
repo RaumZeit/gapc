@@ -9,7 +9,10 @@ The compiler is free and open-source. You can install it directly
 from popular linux distributions or download the source code. It
 is written in C++ and uses flex and bison for its lexer and parser.
 
-Bellman's GAP which is a programming system for writing dynamic programming algorithms over sequential data. It is the second generation implementation of the algebraic dynamic programming framework (ADP).
+### Bellman's GAP
+Bellman's GAP is a programming system for writing dynamic programming
+algorithms over sequential data. It is the second generation implementation
+of the algebraic dynamic programming framework (ADP).
 
 ### Install
 It is recommended to install GAP-C from the distribution's package
