@@ -9,8 +9,17 @@ if [ $# -lt 1 ]; then
 fi
 
 PREFIX="$1"
-SHARE="$PREFIX/share/gapc"
-EXAMPLES="$SHARE/examples"
+
+if [[ -z $DESTDIR ]]; then
+  DESTDIR=$PREFIX
+else
+  DESTDIR="$DESTDIR/$PREFIX"
+fi
+
+SHARE="$DESTDIR/share/gapc"
+EXAMPLES="$DESTDIR/examples"
+
+
 
 SED=`grep SED config.mf | tr -d ' ' | cut -d= -f2`
 
@@ -22,33 +31,33 @@ if [ x$SO_SUFFIX = x ]; then
 fi
 
 set +e
-install -d $PREFIX/bin
+install -d $DESTDIR/bin
 set -e
-install -d $PREFIX/include/rtlib
-install -d $PREFIX/include/rtlib/adp_specialization
-install -d $PREFIX/include/librna
+install -d $DESTDIR/include/rtlib
+install -d $DESTDIR/include/rtlib/adp_specialization
+install -d $DESTDIR/include/librna
 install -d "$SHARE"
 install -d "$SHARE"/librna
 install -d "$EXAMPLES"
 set +e
-install -d $PREFIX/lib
+install -d $DESTDIR/lib
 set -e
 
-install -m 755 gapc $PREFIX/bin
+install -m 755 gapc $DESTDIR/bin
 
 for i in rtlib/*; do
   if [[ ! -d $i ]]; then
-  	install -m 644 $i $PREFIX/include/rtlib
+    install -m 644 $i $DESTDIR/include/rtlib
   fi
 done
 
 for i in rtlib/adp_specialization/*; do
   if [[ ! -d $i ]]; then
-  	install -m 644 $i $PREFIX/include/rtlib/adp_specialization
+    install -m 644 $i $DESTDIR/include/rtlib/adp_specialization
   fi
 done
 
-install -m 644 librna/rnalib.h $PREFIX/include/librna
+install -m 644 librna/rnalib.h $DESTDIR/include/librna
 
 #install -m 644 config.mf "$SHARE"
 
@@ -61,8 +70,8 @@ chmod 644 "$SHARE"/config$SYSTEM_SUFFIX.mf
 
 install -m 644 librna/rnalib.c "$SHARE"/librna
 
-install -m 644 librna/librna$SO_SUFFIX "$PREFIX"/lib
-install -m 644 librna/librnafast$SO_SUFFIX "$PREFIX"/lib
+install -m 644 librna/librna$SO_SUFFIX "$DESTDIR"/lib
+install -m 644 librna/librnafast$SO_SUFFIX "$DESTDIR"/lib
 
 for i in librna/vienna/*.par
 do
